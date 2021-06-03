@@ -14,14 +14,21 @@ class App extends React.Component {
   }
 
   handleAdoptPet = (petId) => {
-    console.log(petId)
-    // this.setState({
-    //   adoptedPets: [...this.state.adoptedPets, petId]
-    // })
-  
-    this.setState({
-      
+
+    const toFindPet = this.state.pets
+    let pets = toFindPet.map((pet) => {
+
+      if (pet.id === petId) {
+
+       return {...pet, isAdopted:true }
+      } else {
+        return pet
+      }
     })
+
+    this.setState({pets})
+    console.log(pets)
+
   }
   onChangeType = (type) => {
     this.setState({

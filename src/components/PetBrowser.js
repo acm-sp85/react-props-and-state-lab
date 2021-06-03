@@ -13,10 +13,11 @@ class PetBrowser extends React.Component {
 
     let petsList = this.props.pets
     let arrayPetsList = petsList.map((pet) => 
-       <div>
+       <div key={pet.id}>
          <br></br>
          <Pet pet={pet} 
          onAdoptPet={this.props.onAdoptPet} 
+
         />
        </div>
  )
