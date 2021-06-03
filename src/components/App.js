@@ -6,51 +6,47 @@ import PetBrowser from './PetBrowser'
 class App extends React.Component {
   constructor() {
     super()
-
     this.state = {
       pets: [],
+      adoptedPets: [],
       filters: { type: "all" }
     }
   }
 
+  handleAdoptPet = (petId) => {
+    console.log(petId)
+    // this.setState({
+    //   adoptedPets: [...this.state.adoptedPets, petId]
+    // })
+  
+    this.setState({
+      
+    })
+  }
   onChangeType = (type) => {
-    this.setState((state) => ({
-      filters: { type }
-    }));
+    this.setState({
+      filters: Object.assign({}, this.state.filters, {
+        type: type
+      })
+    })
   }
 
 
-  onFindPetsClick = () => {
+fetchPets = () => {
+  let url = '/api/pets';
 
-    const filterType = this.state.filters.type
-    if (filterType === "all") {
-      fetch(`/api/pets`)
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            pets: [...data]
-          })
-
-        })
-
-    } else {
-
-
-      fetch(`/api/pets?type=${filterType}`)
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            pets: [...data]
-          })
-
-        })
-    }
-
+  if (this.state.filters.type !== 'all') {
+    url += `?type=${this.state.filters.type}`
   }
+  fetch(url)
+  .then(response => response.json())
+  .then(pets => {
+    this.setState({
+      pets
+    })
+  })
+}
 
-  onAdoptPet = () => {
-
-  }
 
 
   render() {
@@ -62,10 +58,10 @@ class App extends React.Component {
         <div className="ui container">
           <div className="ui grid">
             <div className="four wide column">
-              <Filters  onClick={this.onFindPetsClick} filters={this.onChangeType} />
+              <Filters onChangeType={this.onChangeType} onFindPetsClick={this.fetchPets} filters={this.state.filters} />
             </div>
             <div className="twelve wide column">
-              <PetBrowser petInfo={this.state.pets} onAdoptPet={this.onAdoptPet} />
+              <PetBrowser pets={this.state.pets} onAdoptPet={this.handleAdoptPet} adoptedPets={this.state.adoptedPets}/>
             </div>
           </div>
         </div>

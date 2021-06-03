@@ -4,12 +4,25 @@ import Pet from './Pet'
 
 class PetBrowser extends React.Component {
 
+// 1st: Map over your pets from props
+// 2nd: Create a Pet Component
+// 3rd: Pass in pet as a prop, a key, onAdoptPet, isAdopted
 
 
   render() {
-    return <div className="ui cards">
 
-        <Pet pet={this.props.petInfo} />
+    let petsList = this.props.pets
+    let arrayPetsList = petsList.map((pet) => 
+       <div>
+         <br></br>
+         <Pet pet={pet} 
+         onAdoptPet={this.props.onAdoptPet} 
+        />
+       </div>
+ )
+
+    return <div className="ui cards">
+      {arrayPetsList}
       </div>
   }
 }
