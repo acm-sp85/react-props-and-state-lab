@@ -4,17 +4,26 @@ class Filters extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      filters: { type: "all" }
+    }
 
   }
-  
-  handleChange = event =>{
 
-    this.props.handleChange(event.target.value)
+  handleChange = event => {
+
+    const animalType = event.target.value
+    this.props.filters(animalType)
+    this.setState({
+      filters: animalType
+    });
+
   }
 
   handleClick = event => {
-    this.props.handleClick()
+    this.props.onClick()
   }
+
   render(props) {
     return (
       <div className="ui form">
